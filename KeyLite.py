@@ -145,11 +145,11 @@ def SendKey(hexKeyCode):
 
 def SendString(string):
     x = 0
-    alph = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    alph = "abcdefghijklmnopqrstuvwxyz"
     alphcapital = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     num = "0123456789"
     for x in range(len(string)):
-        if string[x] in (alph or num):
+        if string[x] in (alph or num or alphcapital):
             if string[x] in alphcapital:
                 index = alphcapital.find(string[x])
                 string[x] = alph[index]
