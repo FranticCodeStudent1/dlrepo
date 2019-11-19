@@ -152,7 +152,9 @@ def SendString(string):
         if string[x] in (alph or num or alphcapital):
             if string[x] in alphcapital:
                 index = alphcapital.find(string[x])
-                string[x] = alph[index]
+                PressKey(VK_SHIFT)
+                SendKey(VK_ALPHABET[alph[index]])
+                ReleaseKey(VK_SHIFT)
             if string[x] in alph:
                 SendKey(VK_ALPHABET[string[x]])
             if string[x] in num:
