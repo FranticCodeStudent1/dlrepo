@@ -80,18 +80,18 @@ ME_RUP = 0x10
 wintypes.ULONG_PTR = wintypes.WPARAM
 
 class MOUSEINPUT(ctypes.Structure):
-    _fields_ = (("dx",          wintypes.LONG),
-                ("dy",          wintypes.LONG),
-                ("mouseData",   wintypes.DWORD),
-                ("dwFlags",     wintypes.DWORD),
-                ("time",        wintypes.DWORD),
+    _fields_ = (("dx", wintypes.LONG),
+                ("dy", wintypes.LONG),
+                ("mouseData", wintypes.DWORD),
+                ("dwFlags", wintypes.DWORD),
+                ("time", wintypes.DWORD),
                 ("dwExtraInfo", wintypes.ULONG_PTR))
 
 class KEYBDINPUT(ctypes.Structure):
-    _fields_ = (("wVk",         wintypes.WORD),
-                ("wScan",       wintypes.WORD),
-                ("dwFlags",     wintypes.DWORD),
-                ("time",        wintypes.DWORD),
+    _fields_ = (("wVk", wintypes.WORD),
+                ("wScan", wintypes.WORD),
+                ("dwFlags", wintypes.DWORD),
+                ("time", wintypes.DWORD),
                 ("dwExtraInfo", wintypes.ULONG_PTR))
 
     def __init__(self, *args, **kwds):
@@ -99,8 +99,7 @@ class KEYBDINPUT(ctypes.Structure):
         # some programs use the scan code even if KEYEVENTF_SCANCODE
         # isn't set in dwFflags, so attempt to map the correct code.
         if not self.dwFlags & KEYEVENTF_UNICODE:
-            self.wScan = user32.MapVirtualKeyExW(self.wVk,
-                                                 MAPVK_VK_TO_VSC, 0)
+            self.wScan = user32.MapVirtualKeyExW(self.wVk, MAPVK_VK_TO_VSC, 0)
 
 class HARDWAREINPUT(ctypes.Structure):
     _fields_ = (("uMsg",    wintypes.DWORD),
