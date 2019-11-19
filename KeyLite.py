@@ -69,6 +69,11 @@ VK_DECIMAL = 0x6E
 VK_SHIFT = 0xA0
 VK_CONTROL = 0xA2
 
+#Mouse codes
+ME_LKEY = 0x02
+ME_LUP = 0x04
+ME_RKEY = 0x08
+ME_RUP = 0x10
 
 # C struct definitions
 
@@ -137,4 +142,34 @@ def SendKey(hexKeyCode):
     x = INPUT(type=INPUT_KEYBOARD, ki=KEYBDINPUT(wVk=hexKeyCode))
     user32.SendInput(1, ctypes.byref(x), ctypes.sizeof(x))
     x = INPUT(type=INPUT_KEYBOARD, ki=KEYBDINPUT(wVk=hexKeyCode, dwFlags=KEYEVENTF_KEYUP))
+    user32.SendInput(1, ctypes.byref(x), ctypes.sizeof(x))
+
+def SendString(string):
+    x = 0
+    alph = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    alphcapital = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    num = "0123456789"
+    for x in range(len(string)):
+        if string[x] in (alph or num):
+            if string[x] in alphcapital:
+                index = alphcapital.find(string[x])
+                string[x] = alph[index]
+            if string[x] in alph:
+                SendKey(VK_ALPHABET[string[x]])
+            if string[x] in num:
+                SendKey(VK_NUM[int(string[x])])
+        es = string[x]
+        if es.isspace() == True:
+            SendKey(VK_SPACE)
+        if string[x] == ".":
+            SendKey(VK_DECIMAL)
+
+def MouseClick(hexMouseCode):
+    x = INPUT(type=INPUT_MOUSE, mi=MOUSEINPUT(dwFlags=hexMouseCode))
+    user32.SendInput(1, ctypes.byref(x), ctypes.sizeof(x))
+    if hexMouseCode == ME_LKEY:
+        hexMouseCode = ME_LUP
+    else:
+        hexMouseCode = ME_RUP
+    x = INPUT(type=INPUT_MOUSE, mi=MOUSEINPUT(dwFlags=hexMouseCode))
     user32.SendInput(1, ctypes.byref(x), ctypes.sizeof(x))
